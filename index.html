@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sound Like Yourself | TED Talk Studio 6</title>
+<style>
+:root{--sea:#0E7C86;--sea2:#D7F0F1;--sand:#F4D58D;--sand2:#FCF3DC;--coral:#FF6F59;--coral2:#FFE3DE;--ink:#10263B;--muted:#55697A;--bg:#F3F7F8;--line:#DCE7EA;--ok:#2E9E62;--ok2:#DDF3E6;--r:20px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;font-size:17px}
+button{font:inherit;cursor:pointer;border:none}
+input,textarea,select{font:inherit;color:var(--ink)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 16px}
+.top{position:sticky;top:0;z-index:50;background:var(--ink);color:#fff;box-shadow:0 4px 18px rgba(16,38,59,.3)}
+.top .wrap{display:flex;align-items:center;gap:12px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.5px}
+.bub{background:var(--sand);color:var(--ink);border-radius:14px 14px 14px 3px;padding:3px 9px;font-size:15px}
+.logo small{display:block;font-weight:600;opacity:.7;font-size:11px;letter-spacing:1.5px}
+.spacer{flex:1}
+.pts{background:var(--sand);color:var(--ink);font-weight:900;border-radius:99px;padding:6px 14px;font-size:15px;white-space:nowrap}
+.tbtn{background:rgba(255,255,255,.12);color:#fff;border-radius:99px;padding:7px 13px;font-size:14px;font-weight:700}
+.tbtn:hover{background:rgba(255,255,255,.22)}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px;max-width:1080px;margin:0 auto;scrollbar-width:none}
+.tab{flex:1 0 auto;background:rgba(255,255,255,.08);color:#fff;border-radius:12px;padding:8px 12px;font-size:14px;font-weight:700;display:flex;gap:6px;align-items:center;justify-content:center;opacity:.75}
+.tab.on{background:var(--sea);opacity:1}
+.tab .ok{display:none}.tab.done .ok{display:inline}
+.hero{position:relative;overflow:hidden;color:#fff;padding:56px 0 64px;background:linear-gradient(135deg,#0E7C86,#0A5560)}
+.hero .bubbles{position:absolute;right:5%;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;pointer-events:none;align-items:flex-end}
+.hero .bubbles span{display:block;padding:10px 16px;border-radius:20px 20px 4px 20px;font-weight:800;font-size:18px;animation:pop 4s ease-in-out infinite}
+.hero .bubbles span:nth-child(2){animation-delay:-1.3s;border-radius:20px 20px 20px 4px;align-self:flex-start}.hero .bubbles span:nth-child(3){animation-delay:-2.6s}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.hero h1{font-size:clamp(36px,6.5vw,66px);line-height:1;font-weight:900;letter-spacing:-1px;max-width:600px;position:relative}
+.hero h1 span{color:var(--sand)}
+.hero p{max-width:540px;margin-top:14px;font-size:19px;opacity:.95;position:relative}
+.namebox{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap;max-width:600px;position:relative}
+.namebox input{flex:1 1 200px;border-radius:14px;border:3px solid transparent;padding:13px 16px;font-size:17px}
+.namebox input:focus{outline:none;border-color:var(--sand)}
+.loadhint{margin-top:12px;font-size:15px;opacity:.9;position:relative}
+.loadhint label{color:var(--sand);font-weight:800;cursor:pointer;text-decoration:underline}
+.hero.small{padding:22px 0 24px}
+.hero.small p,.hero.small .namebox,.hero.small .loadhint,.hero.small .bubbles{display:none}
+.hero.small h1{font-size:clamp(24px,4vw,34px)}
+main{padding:28px 0 60px}
+.phase{display:none;animation:fade .35s ease}.phase.on{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.phead{display:flex;align-items:center;gap:14px;margin:6px 0 18px;flex-wrap:wrap}
+.pnum{width:60px;height:52px;border-radius:22px 22px 22px 6px;display:grid;place-items:center;font-size:26px;color:#fff;flex:none}
+.phead h2{font-size:clamp(26px,4vw,36px);font-weight:900;line-height:1.1}
+.phead p{color:var(--muted);font-weight:600}
+.card{background:#fff;border-radius:var(--r);padding:22px;margin-bottom:18px;box-shadow:0 6px 22px rgba(16,38,59,.06);border:2px solid var(--line)}
+.card h3{font-size:22px;font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:10px}
+.card h3 .em{font-size:26px}
+.hint{color:var(--muted);font-size:15px;margin-bottom:14px}
+.btn{background:var(--sea);color:#fff;font-weight:800;border-radius:14px;padding:12px 20px;font-size:16px;box-shadow:0 4px 0 #095A61;transition:transform .1s}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #095A61}
+.btn.alt{background:var(--ink);box-shadow:0 4px 0 #000}
+.btn.sand{background:var(--sand);color:var(--ink);box-shadow:0 4px 0 #C9A752}
+.btn.coral{background:var(--coral);box-shadow:0 4px 0 #C44A37}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.sm{padding:7px 14px;font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.next{display:flex;justify-content:flex-end;margin-top:8px}
+.objectives{background:linear-gradient(135deg,var(--sea2),var(--sand2));border:none}
+.objectives li{margin:6px 0 6px 22px;font-weight:600}
+.chip{background:#fff;border:2px solid var(--line);border-radius:99px;padding:8px 14px;font-weight:700;font-size:15px}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.fb{margin-top:10px;padding:12px 14px;border-radius:14px;font-weight:600;display:none}
+.fb.show{display:block;animation:fade .3s}
+.fb.good{background:var(--ok2);color:#145C35}.fb.bad{background:var(--coral2);color:#8A2B1E}.fb.info{background:var(--sand2);color:#6B5000}
+.progress{height:12px;background:var(--line);border-radius:99px;overflow:hidden;margin:10px 0}
+.progress div{height:100%;background:linear-gradient(90deg,var(--sea),var(--coral));width:0;transition:width .4s}
+.opts{display:grid;gap:8px}
+.opt{background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 14px;text-align:left;font-weight:600;font-size:15px;color:var(--ink)}
+.opt:disabled{cursor:default;color:var(--ink)}
+.opt:hover{border-color:var(--sea)}
+.opt.right{background:var(--ok2);border-color:var(--ok)}
+.opt.wrong{background:var(--coral2);border-color:var(--coral)}
+.speak{background:var(--ink);color:#fff;border-radius:99px;padding:6px 12px;font-size:13px;font-weight:700}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.vs{grid-template-columns:1fr}}
+.vbox{border:3px solid var(--line);border-radius:18px;padding:16px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.vbox .lab{font-weight:900;font-size:13px;letter-spacing:1.5px;color:var(--muted)}
+.vbox q{font-style:italic;quotes:"“" "”";font-size:16px}
+.vbox.win{border-color:var(--ok);background:var(--ok2)}
+/* chain */
+.chain{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:12px 0;font-size:19px;font-weight:700}
+.chain span{background:var(--sea2);border-radius:10px;padding:4px 10px;transition:.3s}
+.chain span.gone{background:var(--coral);color:var(--coral);animation:shake .4s 2}
+.chain span.fade{opacity:.25}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+/* speakers */
+.spk{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(230px,100%),1fr));gap:12px}
+.sp{border:3px solid var(--line);border-radius:18px;padding:14px;background:#fff;text-align:center}
+.sp .big{font-size:44px}
+.sp h4{font-weight:900;font-size:16px;margin:4px 0}
+.sp p{font-size:14px;color:var(--muted);margin-bottom:8px}
+.sp.ok{border-color:var(--ok);background:var(--ok2)}.sp.no{border-color:var(--coral);background:var(--coral2)}
+.cap60{background:var(--ink);color:#fff;border-radius:18px;padding:16px;display:flex;gap:14px;align-items:center;margin-top:14px;flex-wrap:wrap}
+.cap60 .pc6{font-size:40px;color:var(--coral);font-weight:900}
+.pairs{display:grid;gap:8px}
+.pair{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+@media(max-width:640px){.pair{grid-template-columns:1fr}}
+.pair .w{background:#EEF2F4;border-radius:12px;padding:10px 12px;font-weight:600;font-style:italic}
+.pair .s{border-radius:12px;padding:10px 12px;font-weight:700;border:2px dashed var(--line);background:#fff;min-height:44px}
+.pair .s.done{border:2px solid var(--ok);background:var(--ok2)}
+.choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.choices button{background:var(--sand2);border:2px solid var(--sand);border-radius:12px;padding:8px 12px;font-weight:700;font-size:15px}
+.choices button:disabled{opacity:.3}
+/* ladder */
+.steps3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:760px){.steps3{grid-template-columns:1fr}}
+.st3{border-radius:18px;padding:16px;color:#fff;position:relative}
+.st3 h4{font-weight:900;font-size:19px}
+.st3 p{font-size:14px;margin-top:6px;font-weight:600;opacity:.95}
+.st3 .ex{background:rgba(255,255,255,.18);border-radius:10px;padding:8px;margin-top:10px;font-size:14px}
+.shrink{font-size:20px;line-height:2.2;background:#fff;border:2px solid var(--line);border-radius:16px;padding:14px}
+.shrink .w{cursor:pointer;border-radius:8px;padding:2px 5px}
+.shrink .w:hover{background:var(--sand2)}
+.shrink .w.k{background:var(--sea);color:#fff;font-weight:800}
+.cuecard{background:#FFFDF6;border:2px solid #E8DDB8;border-radius:10px;box-shadow:0 6px 14px rgba(0,0,0,.08);padding:14px 16px;position:relative;min-height:150px;background-image:repeating-linear-gradient(transparent 0 33px,#E7EEF2 33px 34px)}
+.cuecard .num{position:absolute;top:8px;right:12px;font-weight:900;color:var(--coral);font-size:20px}
+.cuecard .lab{font-size:12px;font-weight:900;letter-spacing:1.4px;color:var(--sea)}
+.cuecard .kw{font-size:22px;font-weight:800;line-height:1.5;margin-top:4px}
+.cuecard .first{font-size:14px;font-style:italic;color:var(--muted);margin-top:4px}
+.glance{background:var(--ink);color:#fff;border-radius:20px;padding:20px;text-align:center;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px}
+.glance .gk{font-size:clamp(24px,4vw,38px);font-weight:900;color:var(--sand)}
+.glance .look{font-size:44px}
+.oops{display:grid;gap:10px}
+.recs{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(180px,100%),1fr));gap:10px}
+.rec{border-radius:16px;padding:14px;color:#fff;cursor:pointer;min-height:110px}
+.rec .big{font-size:28px}.rec h4{font-weight:900;font-size:16px}.rec p{display:none;font-size:13.5px;margin-top:4px;font-weight:600}
+.rec.on p{display:block}
+/* builder */
+.cards6{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(300px,100%),1fr));gap:14px}
+.cb{border:2px solid var(--line);border-radius:18px;padding:12px;background:#fff}
+.cb label{font-size:12px;font-weight:900;letter-spacing:1px;color:var(--muted);display:block;margin:8px 0 3px}
+.cb input{width:100%;border:2px solid var(--line);border-radius:10px;padding:8px 10px}
+.cb input:focus{outline:none;border-color:var(--sea)}
+.wc{font-size:12px;font-weight:800;margin-top:2px;color:var(--muted)}
+.wc.over{color:var(--coral)}
+.lvl{display:flex;gap:6px}
+.lvl button{border-radius:10px;padding:6px 10px;background:#EEF2F4;font-weight:800;font-size:14px}
+.lvl button.on{background:var(--ok);color:#fff}
+.coach .it{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 14px;font-weight:700;margin-bottom:8px}
+.stars{display:flex;gap:6px}
+.stars button{font-size:30px;background:none;filter:grayscale(1);opacity:.4}
+.stars button.on{filter:none;opacity:1}
+.self{display:grid;gap:12px}
+.self .it{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;background:#fff;border:2px solid var(--line);border-radius:14px;padding:10px 14px;font-weight:700}
+.qn{font-weight:900;color:var(--sea);font-size:14px;letter-spacing:1px}
+.qq{font-size:19px;font-weight:800;margin:6px 0 4px}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.gc{height:120px;perspective:800px;cursor:pointer}
+.gc .in{position:relative;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.gc.on .in{transform:rotateY(180deg)}
+.gc .f,.gc .b{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:10px}
+.gc .f{background:#fff;border:2px solid var(--line);font-weight:900;font-size:17px}
+.gc .f .big{font-size:28px}
+.gc .b{background:var(--ink);color:#fff;transform:rotateY(180deg);font-size:14px}
+.gc .b .ar{font-size:22px;color:var(--sand);font-weight:800;direction:rtl;margin-bottom:4px}
+.modal{position:fixed;inset:0;background:rgba(16,38,59,.6);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal.on{display:flex}
+.mbox{background:#fff;border-radius:22px;max-width:760px;width:100%;max-height:88vh;overflow:auto;padding:22px}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.badge{flex:1 1 120px;border-radius:16px;padding:12px;text-align:center;background:#EEF2F4;filter:grayscale(1);opacity:.5;font-weight:800;font-size:13px}
+.badge .big{font-size:34px;display:block}
+.badge.on{filter:none;opacity:1;background:linear-gradient(135deg,var(--sand),var(--sea2))}
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(140%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:99px;font-weight:800;z-index:200;transition:transform .35s;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:92vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:150}
+footer{text-align:center;color:var(--muted);font-size:14px;padding:26px 16px 40px;font-weight:600}
+@media(max-width:640px){.tbtn .lbl{display:none}.tbtn{padding:7px 10px}.logo small{display:none}.hero .bubbles{opacity:.3}}
+#printCard,#cert,#printCues{display:none}
+@media print{@page{size:A4;margin:10mm}body{background:#fff;font-size:12pt}body > *:not(.printing){display:none !important}.printing{display:block !important}.pc{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+.pc{font-family:"Segoe UI",Arial,sans-serif;color:#10263B}
+.pc .ph{background:#10263B;color:#fff;border-radius:14px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+.pc .ph h1{font-size:22px}
+.pc .pb{border:2px solid #DCE7EA;border-radius:12px;padding:9px 12px;margin-top:10px;break-inside:avoid}
+.pc .pb b{display:block;font-size:11px;letter-spacing:1.2px;color:#0E7C86;text-transform:uppercase}
+.cutgrid{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:8px}
+.cut{border:2px dashed #9FB3BD;padding:12px 14px;height:82mm;position:relative;break-inside:avoid}
+.cut .num{position:absolute;top:8px;right:12px;font-weight:900;color:#FF6F59;font-size:22px}
+.cut .lab{font-size:11px;font-weight:900;letter-spacing:1.4px;color:#0E7C86}
+.cut .kw{font-size:22px;font-weight:800;line-height:1.45;margin-top:6px}
+.cut .first{font-size:13px;font-style:italic;color:#55697A;margin-top:8px}
+.cut .sc{position:absolute;bottom:6px;left:12px;font-size:10px;color:#9FB3BD}
+.certin{border:10px solid #0E7C86;border-radius:20px;padding:40px;text-align:center;outline:4px solid #F4D58D;outline-offset:-24px}
+.certin h1{font-size:42px}
+.certin .nm{font-size:36px;font-weight:900;color:#FF6F59;margin:14px 0;border-bottom:3px dashed #F4D58D;display:inline-block;padding:0 30px 6px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="logo"><span class="bub">💬</span><div>SOUND LIKE YOU<small>TED TALK SERIES · APP 6</small></div></div>
+    <div class="spacer"></div>
+    <div class="pts" id="pts">💬 0 pts</div>
+    <button class="tbtn" onclick="openModal('mBadges')">🏅<span class="lbl"> Badges</span></button>
+    <button class="tbtn" onclick="openModal('mGloss')">📖<span class="lbl"> Glossary</span></button>
+    <button class="tbtn" onclick="saveJSON()">💾<span class="lbl"> Save</span></button>
+    <label class="tbtn" style="cursor:pointer">📂<span class="lbl"> Load</span><input type="file" accept=".json" hidden onchange="loadJSON(event)"></label>
+  </div>
+  <nav class="tabs" id="tabs"></nav>
+</header>
+<section class="hero" id="hero">
+  <div class="bubbles"><span style="background:#F4D58D;color:#10263B">Don't memorise…</span><span style="background:#FF6F59">…remember.</span><span style="background:#fff;color:#10263B">Talk, don't read. 💬</span></div>
+  <div class="wrap">
+    <h1>Sound like <span>yourself.</span></h1>
+    <p>Your talk is <b>live</b>, in front of a real audience. Today you'll learn to speak from key words, not a memorised script, and what to do when you forget.</p>
+    <div class="namebox"><input id="sname" placeholder="Type your name" maxlength="40" oninput="S.name=this.value"><button class="btn sand" onclick="startApp()">Let's go ➜</button></div>
+    <div class="loadhint">Did App 4? <label>📂 Load your Story & Example JSON<input type="file" accept=".json" hidden onchange="loadJSON(event)"></label> and your key words come with you.</div>
+  </div>
+</section>
+
+<main class="wrap" id="main">
+<!-- ENGAGE -->
+<section class="phase on" data-p="0">
+  <div class="phead"><div class="pnum" style="background:var(--coral)">⚡</div><div><h2>Engage: Reading or talking?</h2><p>Your audience can hear the difference.</p></div></div>
+  <div class="card objectives"><h3><span class="em">🎯</span> Lesson objectives</h3><p style="font-weight:700">By the end of this lesson, you will…</p>
+    <ul><li>explain why memorising and reading hurt your mark</li><li>change written sentences into natural spoken English</li><li>make cue cards with key words</li><li>use strategies to recover when you forget</li></ul></div>
+  <div class="card"><h3><span class="em">🎧</span> Speaker A or Speaker B?</h3><p class="hint">Same topic. Who sounds like a real person talking to you?</p><div class="vs" id="abBox"></div><div class="fb" id="abFb"></div></div>
+  <div class="card"><h3><span class="em">⛓️</span> The memory chain</h3><p class="hint">Hamad memorised his talk word for word. Press play and watch what happens when he forgets <b>one word</b>.</p>
+    <div class="chain" id="chain"></div><div class="row" style="justify-content:center"><button class="btn coral" id="chainBtn" onclick="playChain()">▶ Play</button></div>
+    <div id="chainQ"></div><div class="fb" id="chainFb"></div></div>
+  <div class="card"><h3><span class="em">🤔</span> What do I want to learn today?</h3><p class="hint">Tap 1 or 2 questions.</p><div class="row" id="wants"></div></div>
+  <div class="next"><button class="btn" onclick="finishPhase(0)">Next: Explore ➜</button></div>
+</section>
+
+<!-- EXPLORE -->
+<section class="phase" data-p="1">
+  <div class="phead"><div class="pnum" style="background:var(--sea)">🔍</div><div><h2>Explore: What does the rubric say?</h2><p>Four speakers. Who gets the best mark?</p></div></div>
+  <div class="card"><h3><span class="em">🧑‍🏫</span> Be the examiner</h3><p class="hint">Is each speaker <b>risky</b> 😟 or <b>great</b> 😊 for the rubric?</p><div class="spk" id="spk"></div>
+    <div class="cap60"><b class="pc6">60%</b><div><div style="font-weight:900">The reading cap</div><div style="opacity:.9">If you <b>read</b> and/or have your <b>back to the audience</b> for more than half the time, the most you can get for communication skills is 60%.</div></div></div>
+    <div class="fb" id="spkFb"></div></div>
+  <div class="card"><h3><span class="em">✍️➡️💬</span> Written English vs spoken English</h3><p class="hint">TED speakers talk like they're chatting with friends. Tap a spoken version to match each written sentence.</p>
+    <div class="pairs" id="pairs"></div><div class="choices" id="choices"></div><div class="fb" id="pairFb"></div></div>
+  <div class="next"><button class="btn" onclick="finishPhase(1)">Next: Explain ➜</button></div>
+</section>
+
+<!-- EXPLAIN -->
+<section class="phase" data-p="2">
+  <div class="phead"><div class="pnum" style="background:var(--ink)">💡</div><div><h2>Explain: Script → key words → cue cards</h2><p>Remember ideas, not words.</p></div></div>
+  <div class="card"><h3><span class="em">🪜</span> Three steps</h3>
+    <div class="steps3">
+      <div class="st3" style="background:#8AA0AE"><h4>1. Script (practice only)</h4><p>Write it out to plan. Then put it away. Don't memorise it.</p><div class="ex">“Last Ramadan, our team of eight served iftar to three hundred people in just two hours.”</div></div>
+      <div class="st3" style="background:var(--sea)"><h4>2. Key words</h4><p>Keep only the words that hold the idea: 3 to 8 per part.</p><div class="ex">Ramadan · team of 8 · 300 people · 2 hours</div></div>
+      <div class="st3" style="background:var(--coral)"><h4>3. Cue card</h4><p>One small card per part. Numbered. Big letters. Glance, then look up and talk.</p><div class="ex">③ STORY · Ramadan → team of 8 → 300 people → 2 hours</div></div>
+    </div>
+    <div class="fb info show">💡 Know your <b>first line</b> and your <b>last line</b> really well. For the middle, trust your key words and tell it in your own words.</div></div>
+  <div class="card"><h3><span class="em">✂️</span> Shrink it!</h3><p class="hint">Tap the <b>key words</b> in this sentence (choose 3 to 6). The rest you can say naturally.</p>
+    <div class="shrink" id="shrink"></div><div style="margin-top:12px" id="shrinkCard"></div><div class="fb" id="shrinkFb"></div></div>
+  <div class="card"><h3><span class="em">👀</span> Glance and go</h3><p class="hint">Look down for 2 seconds, grab the words, look <b>up</b>, and say the idea in your own words. Try it!</p>
+    <div class="glance" id="glance"><div class="look">👀</div><div>Ready? Say the idea out loud to your partner.</div></div>
+    <div class="row" style="justify-content:center;margin-top:10px"><button class="btn" onclick="glanceGo()">▶ Start glance and go</button></div></div>
+  <div class="card"><h3><span class="em">🛟</span> Oops! I forgot. Recovery strategies</h3><p class="hint">The rubric rewards <b>confidence recovery strategies</b>. Tap each lifesaver.</p>
+    <div class="recs" id="recs"></div><h4 style="margin:16px 0 6px;font-weight:900">What would you do?</h4><div class="progress"><div id="oopsBar"></div></div><div id="oopsBox"></div><div class="fb" id="oopsFb"></div></div>
+  <div class="next"><button class="btn" onclick="finishPhase(2)">Next: Extend ➜</button></div>
+</section>
+
+<!-- EXTEND -->
+<section class="phase" data-p="3">
+  <div class="phead"><div class="pnum" style="background:var(--sand);color:var(--ink)">🚀</div><div><h2>Extend: My cue cards</h2><p>One card per part. Key words only. Print and cut.</p></div></div>
+  <div class="card"><h3><span class="em">🗂️</span> Step 1: Write my cue cards</h3><p class="hint"><b>8 key words or fewer</b> per card. Only the hook and the ending can have a full first line.</p><div class="cards6" id="cards6"></div></div>
+  <div class="card"><h3><span class="em">👀</span> Step 2: Glance-and-go rehearsal</h3><p class="hint">Each card shows for <b>3 seconds</b>, then hides. Look up and say that part to your partner in your own words. Tap “Next card” when you finish the part.</p>
+    <div class="glance" id="reh"><div class="look">🗂️</div><div>Your cards will appear here.</div></div>
+    <div class="row" style="justify-content:center;margin-top:10px"><button class="btn" id="rehBtn" onclick="rehStart()">▶ Start rehearsal</button><button class="btn ghost" id="rehNext" style="display:none" onclick="rehNext()">Next card ➜</button></div>
+    <div id="rehTime" style="text-align:center;font-weight:900;margin-top:8px;color:var(--muted)"></div></div>
+  <div class="card coach"><h3><span class="em">🧑‍🤝‍🧑</span> Step 3: Partner natural-o-meter</h3><p class="hint">Your partner watches your rehearsal and rates you.</p><div id="coach"></div>
+    <input class="chip" style="display:block;width:100%;margin-top:6px" id="ctip" placeholder="Partner's top tip (one short idea)" oninput="S.coachTip=this.value"></div>
+  <div class="next"><button class="btn" onclick="finishPhase(3)">Next: Evaluate ➜</button></div>
+</section>
+
+<!-- EVALUATE -->
+<section class="phase" data-p="4">
+  <div class="phead"><div class="pnum" style="background:var(--coral)">🏆</div><div><h2>Evaluate: Check yourself</h2><p>Score 80% to unlock your certificate.</p></div></div>
+  <div class="card"><h3><span class="em">📝</span> Natural speaker quiz</h3><div id="quiz"></div></div>
+  <div class="card"><h3><span class="em">⭐</span> How confident am I?</h3><div class="self" id="selfc"></div></div>
+  <div class="card"><h3><span class="em">✅</span> What did I learn today?</h3><p class="hint">Tap the questions from Engage that you can now answer.</p><div class="row" id="learned"></div></div>
+  <div class="card" style="text-align:center"><h3 style="justify-content:center"><span class="em">🖨️</span> Finish & keep</h3>
+    <p class="hint">Print your cue cards on card or paper and cut along the dashed lines. Save your JSON file for App 8 (Defend Your Talk).</p>
+    <div class="row" style="justify-content:center"><button class="btn coral" onclick="printCues()">✂️ Print my cue cards</button><button class="btn" onclick="printCard()">🖨️ Print my summary</button><button class="btn alt" onclick="saveJSON()">💾 Save JSON for App 8</button><button class="btn sand" id="certBtn" onclick="printCert()" disabled>🎓 Certificate (80%)</button></div></div>
+</section>
+</main>
+<footer>TED Talk Series · App 6 of 8 · LSC 1503 Professional Spoken Communication · HCT<br>Designed by: Nazila Motahari</footer>
+
+<div class="modal" id="mBadges" onclick="if(event.target===this)closeModal(this)"><div class="mbox"><h3 style="font-size:24px;font-weight:900">🏅 My badges</h3><div class="badges" id="badges"></div><div class="next"><button class="btn alt" onclick="closeModal(document.getElementById('mBadges'))">Close</button></div></div></div>
+<div class="modal" id="mGloss" onclick="if(event.target===this)closeModal(this)"><div class="mbox"><h3 style="font-size:24px;font-weight:900">📖 Glossary · المفردات</h3><p class="hint">Tap a card to see the Arabic and an example.</p><div class="gl" id="gloss"></div><div class="next" style="margin-top:12px"><button class="btn alt" onclick="closeModal(document.getElementById('mGloss'))">Close</button></div></div></div>
+<div id="printCard" class="pc"></div><div id="cert" class="pc"></div><div id="printCues" class="pc"></div>
+<div class="toast" id="toast"></div><canvas id="confetti"></canvas>
+
+<script>
+const S={name:"",points:0,done:[false,false,false,false,false],awarded:{},ab:null,chain:null,wants:[],spk:{},pairs:{},shrink:[],recs:[],oopsScore:0,
+  topic:{title:"",idea:""},hook:"",cards:null,coach:{},coachTip:"",rehDone:false,quiz:null,quizScore:null,self:{},learned:[],prev:null,carry:null};
+const PH=["Engage","Explore","Explain","Extend","Evaluate"],PHE=["⚡","🔍","💡","🚀","🏆"];
+const BADGES=[["👂","Good Ear"],["🧑‍🏫","Examiner Eye"],["✂️","Key Word Cutter"],["🗂️","Cue Card Pro"],["🏆","Natural Speaker"]];
+const $=id=>document.getElementById(id);
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function words(s){return (s||"").trim().split(/[\s·→,]+/).filter(w=>/[\w\u0600-\u06FF]/.test(w)).length}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2200)}
+function addPts(n,msg){S.points+=n;$("pts").textContent="💬 "+S.points+" pts";if(msg)toast(msg+"  +"+n)}
+function awardOnce(k,n,msg){if(S.awarded[k])return;S.awarded[k]=1;addPts(n,msg||"Nice!")}
+let tok=0;function sayParts(parts){try{speechSynthesis.cancel()}catch(e){toast("Audio is not available on this device");return}const my=++tok;let i=0;const nx=()=>{if(my!==tok||i>=parts.length)return;const p=parts[i++];const u=new SpeechSynthesisUtterance(p[0]);u.lang="en-GB";u.rate=p[1]??1;u.pitch=p[2]??1;u.onend=()=>setTimeout(nx,p[3]||0);speechSynthesis.speak(u)};nx()}
+function openModal(id){if(id==="mBadges")renderBadges();$(id).classList.add("on")}
+function closeModal(m){m.classList.remove("on")}
+let cur=0;
+function renderTabs(){$("tabs").innerHTML=PH.map((p,i)=>`<button class="tab ${cur===i?"on":""} ${S.done[i]?"done":""}" onclick="go(${i})">${PHE[i]} ${p} <span class="ok">✅</span></button>`).join("")}
+function go(i){cur=i;document.querySelectorAll(".phase").forEach(s=>s.classList.toggle("on",+s.dataset.p===i));renderTabs();const y=$("main").getBoundingClientRect().top+scrollY-110;scrollTo({top:y,behavior:"smooth"});if(i===4){S.quiz?drawQuiz():buildQuiz()}if(i===3)renderCards()}
+function startApp(){if(!S.name.trim()){toast("Type your name first 😊");$("sname").focus();return}awardOnce("start",5,"Welcome, "+S.name.trim()+"!");shrinkHero();go(0)}
+function shrinkHero(){const h=$("hero");h.classList.add("small");h.querySelector("h1").innerHTML=`${esc(S.name.trim())}, sound like <span>yourself.</span>`}
+const phaseReq=[()=>(S.ab!==null&&S.chain!==null)||"Choose a speaker and try the memory chain.",
+  ()=>(Object.keys(S.spk).length>=SPK.length&&Object.keys(S.pairs).length>=PAIRS.length)||"Judge all 4 speakers and match all the spoken versions.",
+  ()=>(!!S.awarded.shrink&&S.recs.length>=RECS.length&&!!S.awarded.oops)||"Shrink the sentence, open all 6 lifesavers and finish 'What would you do?'.",
+  ()=>{const c=S.cards;const empty=c.findIndex(x=>!x.k.trim());if(empty>-1)return `Write key words on card ${empty+1}.`;const long=c.findIndex(x=>words(x.k)>8);if(long>-1)return `Card ${long+1}: 8 key words or fewer.`;return true}];
+function finishPhase(i){const r=phaseReq[i]();if(r!==true){toast("✋ "+r);return}if(!S.done[i]){S.done[i]=true;addPts(20,BADGES[i][0]+" Badge: "+BADGES[i][1]);confetti()}go(i+1)}
+function renderBadges(){$("badges").innerHTML=BADGES.map((b,i)=>`<div class="badge ${S.done[i]?"on":""}"><span class="big">${b[0]}</span>${b[1]}<br><small>${PH[i]}</small></div>`).join("")}
+
+/* ENGAGE */
+const AB=[{t:"Good morning, ladies and gentlemen. Today I am going to present about the topic of patience. Patience is defined as the capacity to accept delay without becoming upset. There are three main benefits of patience.",parts:[["Good morning, ladies and gentlemen. Today I am going to present about the topic of patience. Patience is defined as the capacity to accept delay without becoming upset. There are three main benefits of patience.",1.25,1]]},
+ {t:"Have you ever waited for something you really, really wanted? I have. For three hours. In the desert. And honestly? It changed me.",parts:[["Have you ever waited for something you really, really wanted?",.95,1.1,500],["I have.",.85,1,400],["For three hours.",.8,.95,300],["In the desert.",.8,.95,600],["And honestly?",.9,1.15,400],["It changed me.",.8,.85]]}];
+function renderAB(){$("abBox").innerHTML=AB.map((a,i)=>`<div class="vbox ${S.ab!==null&&i===1?"win":""}"><div class="lab">SPEAKER ${"AB"[i]}${S.ab!==null?(i?" · TALKING 💬":" · READING 📄"):""}</div><q>${a.t}</q><div class="row"><button class="speak" onclick="sayParts(AB[${i}].parts)">▶ Listen</button><button class="btn sm ${S.ab===i?"sand":"ghost"}" onclick="pickAB(${i})">Sounds like a real person</button></div></div>`).join("")}
+function pickAB(i){const f=S.ab===null;S.ab=i;renderAB();const fb=$("abFb");fb.className="fb show "+(i===1?"good":"info");fb.innerHTML=(i===1?"🎉 Yes! ":"Most people choose B. ")+"Speaker A sounds like a written essay read aloud: long sentences, formal words, a definition, no feeling. Speaker B uses short sentences, a question, “I”, and pauses. That's how real people talk.";if(f)addPts(10)}
+const CHAIN="It was five a.m. and the desert was silent when my falcon suddenly flew away into the sky".split(" ");
+function renderChain(state){$("chain").innerHTML=CHAIN.map((w,i)=>`<span class="${state&&i===9?"gone":state&&i>9?"fade":""}">${state&&i===9?"????":w}</span>`).join("")}
+function playChain(){renderChain(false);$("chainBtn").disabled=true;let i=0;const sp=$("chain").querySelectorAll("span");sp.forEach(s=>s.style.opacity=.2);
+  const iv=setInterval(()=>{if(i<9){sp[i].style.opacity=1;i++}else{clearInterval(iv);renderChain(true);$("chainBtn").disabled=false;$("chainBtn").textContent="↺ Replay";
+    $("chainQ").innerHTML=`<p class="qq" style="text-align:center">Hamad forgot one word. What happens next?</p><div class="opts">${["He freezes. He can't continue because the next word is gone.","He starts the whole talk again from the beginning.","He looks at his key words (desert · falcon · flew away) and says it his own way."].map((o,k)=>`<button class="opt" onclick="chainAns(this,${k})">${o}</button>`).join("")}</div>`}},350)}
+function chainAns(b,k){S.chain=k;document.querySelectorAll("#chainQ .opt").forEach((x,j)=>{x.disabled=true;if(j===2)x.classList.add("right")});if(k!==2)b.classList.add("wrong");const fb=$("chainFb");fb.className="fb show "+(k===2?"good":"info");
+  fb.innerHTML="⛓️ A memorised talk is like a chain: if <b>one link</b> breaks, everything stops. That's why so many students freeze. If you remember <b>ideas</b> (key words), you can always continue in your own words.";addPts(k===2?10:4)}
+const WANTS=["Should I memorise my talk?","Can I use notes or cue cards?","How do I sound natural?","What if I forget everything?","How much can I look at my slides?","What should I write on a cue card?"];
+function renderWants(){$("wants").innerHTML=WANTS.map((w,i)=>`<button class="chip ${S.wants.includes(i)?"on":""}" onclick="tapWant(${i})">${w}</button>`).join("")}
+function tapWant(i){const k=S.wants.indexOf(i);k>-1?S.wants.splice(k,1):S.wants.length<2?S.wants.push(i):toast("Pick up to 2");renderWants();renderLearned();if(S.wants.length)awardOnce("wants",5,"Great question")}
+
+/* EXPLORE */
+const SPK=[["📄","Reem","Reads every word from her slides with her back to the audience.",0,"Reading + back to the audience more than half the time = maximum 60% for communication skills."],["🗂️","Ali","Glances at a small cue card, looks up, and explains in his own words.",1,"Perfect: glance, then talk to the audience. No reliance on notes."],["🤖","Noura","Memorised every word. Speaks fast like a robot and freezes when she forgets.",0,"The rubric wants you to explain “without noticeable memorisation”. Robot voice + freezing = a lower mark."],["😊","Khalid","Knows his ideas, makes small mistakes, smiles, corrects himself and continues.",1,"Small mistakes are fine. Self-correction and recovery strategies are in the rubric!"]];
+function renderSpk(){$("spk").innerHTML=SPK.map((s,i)=>{const a=S.spk[i];return `<div class="sp ${a!==undefined?(s[3]?"ok":"no"):""}"><div class="big">${s[0]}</div><h4>${s[1]}</h4><p>${s[2]}</p>${a===undefined?`<div class="row" style="justify-content:center"><button class="btn sm coral" onclick="spkAns(${i},0)">😟 Risky</button><button class="btn sm" style="background:var(--ok);box-shadow:none" onclick="spkAns(${i},1)">😊 Great</button></div>`:`<p style="color:var(--ink);font-weight:700">${a===s[3]?"✅":"❌"} ${s[4]}</p>`}</div>`}).join("")}
+function spkAns(i,k){S.spk[i]=k;addPts(k===SPK[i][3]?5:1);renderSpk();if(Object.keys(S.spk).length>=SPK.length){const fb=$("spkFb");fb.className="fb info show";fb.innerHTML="🔑 The rubric rewards speaking <b>in your own words</b>, with <b>no reliance on notes or screen reading</b>, and <b>recovery strategies</b> if you get stuck. Cue cards are for a quick glance only.";awardOnce("spk",10,"Examiner eye!")}}
+const PAIRS=[["“In this presentation, I will discuss the topic of resilience.”","“Let me tell you about the day I failed.”"],["“It is important to note that teamwork is beneficial.”","“Here's the thing: nobody wins alone.”"],["“There are many advantages to volunteering.”","“Volunteering gave me three things I didn't expect.”"],["“In conclusion, patience is essential.”","“So, what does this mean for you?”"],["“The statistics indicate a significant increase.”","“The number went up. A lot.”"]];
+const CH_ORD=shuffle(PAIRS.map((_,i)=>i));let pairSel=-1;
+function renderPairs(){$("pairs").innerHTML=PAIRS.map((p,i)=>`<div class="pair"><div class="w">${p[0]}</div><div style="text-align:center;font-size:20px">➜</div><div class="s ${S.pairs[i]!==undefined?"done":""}" onclick="pairSel=${i};renderPairs()" style="${pairSel===i?"border-color:var(--coral)":""}">${S.pairs[i]!==undefined?PAIRS[i][1]:(pairSel===i?"👈 now tap a spoken version below":"tap here, then choose ⬇")}</div></div>`).join("");
+  $("choices").innerHTML=CH_ORD.map(i=>`<button ${Object.values(S.pairs).includes(i)?"disabled":""} onclick="pairPick(${i})">${PAIRS[i][1]}</button>`).join("")}
+function pairPick(i){if(pairSel<0){const free=PAIRS.findIndex((_,k)=>S.pairs[k]===undefined);pairSel=free}const fb=$("pairFb");
+  if(i===pairSel){S.pairs[pairSel]=i;addPts(3);fb.className="fb good show";fb.innerHTML="✅ Nice match!";pairSel=-1}else{fb.className="fb bad show";fb.innerHTML="❌ Not that one. Think: which says the same idea, but like you're chatting?"}
+  renderPairs();if(Object.keys(S.pairs).length>=PAIRS.length){fb.className="fb info show";fb.innerHTML="💬 Spoken English: short sentences · “I” and “you” · questions · simple words. Formal written phrases like “In this presentation I will discuss…” sound memorised.";awardOnce("pairs",10,"Talk like a TED speaker!")}}
+
+/* EXPLAIN */
+const SHR="Last Ramadan our small volunteer team of eight people served iftar to three hundred hungry workers in just two hours".split(" ");
+const SHR_KEY=[1,4,5,7,8,9,10,12,13,14,15,18,19];
+function renderShrink(){$("shrink").innerHTML=SHR.map((w,i)=>`<span class="w ${S.shrink.includes(i)?"k":""}" onclick="tapShr(${i})">${w}</span>`).join(" ");
+  const kw=S.shrink.slice().sort((a,b)=>a-b).map(i=>SHR[i]).join(" · ");$("shrinkCard").innerHTML=`<div class="cuecard" style="max-width:420px"><span class="num">③</span><div class="lab">STORY</div><div class="kw">${kw||"<span style='color:#B9C7CE'>your key words…</span>"}</div></div>`}
+function tapShr(i){const k=S.shrink.indexOf(i);if(k>-1)S.shrink.splice(k,1);else if(S.shrink.length<6)S.shrink.push(i);else{toast("6 key words is enough!");return}renderShrink();
+  const fb=$("shrinkFb");if(S.shrink.length>=3){const good=S.shrink.filter(i=>SHR_KEY.includes(i)).length;fb.className="fb show "+(good>=3?"good":"info");fb.innerHTML=good>=3?"✅ Great key words! Names, numbers and big nouns hold the idea. Words like “our”, “to”, “in” you'll say naturally.":"Try to keep the <b>content words</b>: names, numbers, big nouns and verbs (Ramadan, eight, iftar, 300…).";if(good>=3)awardOnce("shrink",10,"Key word cutter!")}else fb.className="fb"}
+const GL=[["Ramadan · team of 8","Say it: “Last Ramadan, our team of eight people…”"],["300 workers · 2 hours","Say it: “…served iftar to 300 workers in just two hours.”"],["alone: one table 😅","Say it: “Alone, I couldn't even carry one table!”"]];
+let gIv=null;
+function glanceGo(){clearTimeout(gIv);let i=0;const g=$("glance");const show=()=>{if(i>=GL.length){g.innerHTML=`<div class="look">🎉</div><div>That's glance and go! Down 2 seconds, up and talk.</div>`;awardOnce("glance",10,"Glance and go!");return}
+  g.innerHTML=`<div style="font-size:13px;font-weight:900;letter-spacing:1.5px;opacity:.7">GLANCE…</div><div class="gk">${GL[i][0]}</div>`;
+  gIv=setTimeout(()=>{g.innerHTML=`<div class="look">👀⬆️</div><div style="font-weight:900">Look up and say it!</div><div style="opacity:.75;font-size:14px">${GL[i][1]}</div>`;i++;gIv=setTimeout(show,4500)},2000)};show()}
+const RECS=[["🌬️","Pause and breathe","Stop. Breathe in. A pause feels long to you, but to the audience it looks confident.","#0E7C86"],["🗂️","Glance at your card","That's what it's for! Look down, find your key word, look up.","#FF6F59"],["🔁","Repeat your last idea","“So, as I said, teamwork matters…” gives your brain time to find the next part.","#10263B"],["🌉","Use a bridge phrase","“What I mean is…”, “Let me put it another way…”, “The point is…”","#9A7420"],["😊","Smile and continue","Small mistake? Correct it simply (“Sorry, I mean…”) and keep going. Don't apologise again and again.","#2E9E62"],["⏭️","Skip to the next part","Forgot a detail? Move to your next card. The audience doesn't know your plan!","#8AA0AE"]];
+function renderRecs(){$("recs").innerHTML=RECS.map((r,i)=>`<div class="rec ${S.recs.includes(i)?"on":""}" style="background:${r[3]}" onclick="tapRec(${i})"><div class="big">${r[0]}</div><h4>${r[1]}</h4><p>${r[2]}</p>${S.recs.includes(i)?"":`<small style="opacity:.8;font-weight:700">tap</small>`}</div>`).join("")}
+function tapRec(i){if(!S.recs.includes(i)){S.recs.push(i);addPts(2)}renderRecs();if(S.recs.length>=RECS.length)awardOnce("recs",5,"Lifesavers ready!")}
+const OOPS=[{q:"Your mind goes blank in the middle of your second point.",o:["Say “Sorry, I forgot” and sit down","Pause, breathe, glance at your cue card, continue","Start the whole talk again from the hook"],a:1},
+ {q:"You say the wrong number: “30 people… no…”",o:["Correct it simply: “Sorry, I mean 300”, and continue","Stop and apologise for one minute","Pretend nothing happened and leave it wrong"],a:0},
+ {q:"You can't remember the exact word “volunteer”.",o:["Freeze and wait until you remember it","Ask the audience to tell you the word","Use a bridge: “people who help for free, you know, volunteers”"],a:2},
+ {q:"You forgot a small detail in your story.",o:["Go back and tell the whole story again","Skip it and move to your next card","Read the full story from your phone"],a:1}];
+let oi=0;const O_ORD=OOPS.map(()=>shuffle([0,1,2]));
+function drawOops(){$("oopsBar").style.width=(oi/OOPS.length*100)+"%";if(oi>=OOPS.length){$("oopsBox").innerHTML=`<div class="qq" style="text-align:center">🛟 ${S.oopsScore} / ${OOPS.length}: you can recover!</div>`;awardOnce("oops",10,"Recovery expert!");return}
+  const o=OOPS[oi];$("oopsBox").innerHTML=`<div class="qq">😬 ${o.q}</div><div class="opts">${O_ORD[oi].map(k=>`<button class="opt" onclick="oopsAns(this,${k})">${o.o[k]}</button>`).join("")}</div>`}
+function oopsAns(b,k){const o=OOPS[oi];document.querySelectorAll("#oopsBox .opt").forEach((x,j)=>{x.disabled=true;if(O_ORD[oi][j]===o.a)x.classList.add("right")});const ok=k===o.a;if(!ok)b.classList.add("wrong");if(ok){S.oopsScore++;addPts(3)}
+  const fb=$("oopsFb");fb.className="fb show "+(ok?"good":"bad");fb.innerHTML=ok?"✅ Good recovery!":"❌ That would make it worse. Look at the green answer.";setTimeout(()=>{oi++;drawOops()},1500)}
+
+/* EXTEND */
+const CARDS=[["🎣","HOOK",true],["1️⃣","POINT 1",false],["2️⃣","POINT 2 · STORY",false],["3️⃣","POINT 3 · EXAMPLE",false],["🏁","ENDING",true]];
+function initCards(){S.cards=CARDS.map(()=>({k:"",f:""}))}
+function renderCards(){if(!S.cards)initCards();$("cards6").innerHTML=CARDS.map((c,i)=>{const d=S.cards[i];return `<div class="cb"><div class="cuecard"><span class="num">${"①②③④⑤"[i]}</span><div class="lab">${c[0]} ${c[1]}</div><div class="kw" id="kwp${i}">${esc(d.k)||"<span style='color:#B9C7CE'>key words…</span>"}</div>${c[2]?`<div class="first" id="fp${i}">${d.f?"“"+esc(d.f)+"”":""}</div>`:""}</div>
+   <label>KEY WORDS (8 OR FEWER)</label><input value="${esc(d.k)}" maxlength="80" placeholder="${["5 a.m. · desert · falcon gone","patience · learn · months","Ramadan · rice · grandmother · spoon","team 8 · 300 people · 2 hours","phone off · be patient · thank you"][i]}" oninput="cardTxt(${i},'k',this)"><div class="wc ${words(d.k)>8?"over":""}" id="cwc${i}">${words(d.k)} / 8 words</div>
+   ${c[2]?`<label>${i===0?"MY FIRST LINE":"MY LAST LINE"} (OPTIONAL)</label><input value="${esc(d.f)}" maxlength="120" placeholder="${i===0?"It was 5 a.m., and the desert was silent.":"So, next time you wait… remember the falcon."}" oninput="cardTxt(${i},'f',this)">`:""}</div>`}).join("")}
+function cardTxt(i,f,el){S.cards[i][f]=el.value;if(f==="k"){const n=words(el.value);$("kwp"+i).innerHTML=esc(el.value)||"<span style='color:#B9C7CE'>key words…</span>";const w=$("cwc"+i);w.textContent=n+" / 8 words"+(n>8?" · too many ✂️":"");w.classList.toggle("over",n>8)}else{$("fp"+i).textContent=el.value?"“"+el.value+"”":""}
+  if(S.cards.every(c=>c.k.trim()&&words(c.k)<=8))awardOnce("cards",20,"🗂️ Cue cards ready!")}
+let rIdx=0,rT0=0,rIv=null,rHide=null;
+function rehStart(){if(!S.cards||S.cards.some(c=>!c.k.trim())){toast("Write all 5 cue cards first");return}rIdx=0;rT0=Date.now();clearInterval(rIv);rIv=setInterval(()=>{const s=Math.round((Date.now()-rT0)/1000);$("rehTime").textContent="⏱️ "+Math.floor(s/60)+":"+String(s%60).padStart(2,"0")+" (your whole talk: 3–6 minutes)"},500);$("rehBtn").style.display="none";$("rehNext").style.display="inline-block";rehShow()}
+function rehShow(){clearTimeout(rHide);const c=S.cards[rIdx],g=$("reh");g.innerHTML=`<div style="font-size:13px;font-weight:900;letter-spacing:1.5px;opacity:.7">${"①②③④⑤"[rIdx]} ${CARDS[rIdx][1]} · GLANCE…</div><div class="gk">${esc(c.k)}</div>`;
+  rHide=setTimeout(()=>{g.innerHTML=`<div class="look">👀⬆️</div><div style="font-weight:900">Look up and talk!</div><div style="opacity:.7;font-size:14px">${CARDS[rIdx][1]}</div>`},3000)}
+function rehNext(){rIdx++;if(rIdx>=S.cards.length){clearTimeout(rHide);clearInterval(rIv);const s=Math.round((Date.now()-rT0)/1000);$("reh").innerHTML=`<div class="look">🎉</div><div style="font-weight:900">Rehearsal done in ${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}!</div><div style="opacity:.8;font-size:14px">${s<180?"A bit short for the real talk (3–6 min). Add more detail to your story and example.":s>360?"A bit long: practise cutting details.":"Great timing for a 3–6 minute talk!"}</div>`;
+  $("rehNext").style.display="none";$("rehBtn").style.display="inline-block";$("rehBtn").textContent="↺ Rehearse again";S.rehDone=true;S.rehSecs=s;awardOnce("reh",15,"Rehearsal complete!");return}rehShow()}
+const COACH=["👀 Looked at me, not the card","💬 Sounded like talking, not reading","🧠 Used own words, not memorised","🛟 Recovered from mistakes calmly","🗂️ Glanced quickly, then looked up"];
+function renderCoach(){$("coach").innerHTML=COACH.map((c,i)=>`<div class="it">${c}<div class="lvl">${["Not yet","Getting there","Yes!"].map((l,k)=>`<button class="${S.coach[i]===k?"on":""}" onclick="S.coach[${i}]=${k};renderCoach();if(Object.keys(S.coach).length>=5)awardOnce('coach',10,'Partner feedback done')">${l}</button>`).join("")}</div></div>`).join("");$("ctip").value=S.coachTip}
+
+/* EVALUATE */
+const QUIZ=[
+ {q:"Why is memorising your talk word for word risky?",o:["If you forget one word, you may freeze","Your talk will be too short for the time","The audience will laugh at your accent","You will not need any cue cards at all"],a:0},
+ {q:"What happens if you read and/or turn your back for more than half the time?",o:["Nothing, it's allowed in a TED Talk","Your communication skills mark is capped at 60%","You must start the talk again","You get extra marks for preparation"],a:1},
+ {q:"What should you write on a cue card?",o:["Your whole script in small writing","Nothing, cue cards are not allowed","3–8 key words for one part of your talk","Every word of your slides"],a:2},
+ {q:"Which sentence sounds like natural spoken English?",o:["“In this presentation I will discuss the topic of resilience.”","“It is important to note that resilience is beneficial.”","“Resilience is defined as the capacity to recover.”","“Let me tell you about the day I failed.”"],a:3},
+ {q:"How should you use your cue card?",o:["Glance for a second, then look up and talk","Hold it in front of your face and read it","Keep it in your pocket and never look","Give it to the audience to read"],a:0},
+ {q:"Your mind goes blank. What is the best first step?",o:["Say sorry and sit down","Pause, breathe and glance at your card","Start the whole talk again","Ask your teacher what to say"],a:1},
+ {q:"Which parts of your talk is it OK to know really well?",o:["Every single word from start to end","Only the slide titles, nothing else","Your first line and your last line","None, you should improvise everything"],a:2},
+ {q:"You say a wrong number. What should you do?",o:["Stop and apologise many times","Leave it wrong and hope nobody noticed","Ask the audience to forget it","Correct it simply and continue"],a:3},
+ {q:"What is a “bridge phrase”?",o:["A phrase like “What I mean is…” that helps you continue","A slide that connects two points","A list of all your main points","The last sentence of your talk"],a:0},
+ {q:"Khalid makes small mistakes but corrects himself and continues. The rubric says…",o:["he will fail because of the mistakes","self-correction and recovery are good skills","he should have memorised the talk","he needs to read from his slides"],a:1}];
+function buildQuiz(){S.quiz=shuffle(QUIZ.map((q,i)=>i)).map(i=>({i,ord:shuffle(QUIZ[i].o.map((_,k)=>k)),ans:null}));qi=0;S.quizScore=null;drawQuiz()}
+let qi=0;
+function drawQuiz(){const box=$("quiz");if(S.quizScore!==null&&qi>=S.quiz.length){const pct=Math.round(S.quizScore/QUIZ.length*100);
+  box.innerHTML=`<div style="text-align:center"><div style="font-size:60px">${pct>=80?"🏆":"💪"}</div><div class="qq">You scored ${S.quizScore}/${QUIZ.length} (${pct}%)</div><p class="hint">${pct>=80?"Amazing! Your certificate is unlocked.":"You need 80% for the certificate. Try again!"}</p><button class="btn ghost" onclick="buildQuiz()">🔁 Try again</button></div>`;
+  $("certBtn").disabled=pct<80;if(pct>=80){confetti();if(!S.done[4]){S.done[4]=true;addPts(20,"🏆 Badge: Natural Speaker");renderTabs()}}return}
+  const it=S.quiz[qi],Q=QUIZ[it.i];box.innerHTML=`<div class="progress"><div style="width:${qi/S.quiz.length*100}%"></div></div><div class="qn">QUESTION ${qi+1} OF ${S.quiz.length}</div><div class="qq">${Q.q}</div><div class="opts">${it.ord.map(k=>`<button class="opt" onclick="qAns(this,${k})">${Q.o[k]}</button>`).join("")}</div>`}
+function qAns(b,k){const it=S.quiz[qi],Q=QUIZ[it.i];if(it.ans!==null)return;it.ans=k;document.querySelectorAll("#quiz .opt").forEach((x,j)=>{x.disabled=true;if(it.ord[j]===Q.a)x.classList.add("right")});if(k===Q.a)addPts(5);else b.classList.add("wrong");
+  setTimeout(()=>{qi++;if(qi>=S.quiz.length)S.quizScore=S.quiz.filter(x=>x.ans===QUIZ[x.i].a).length;drawQuiz()},1000)}
+const SELF=["I can explain why memorising is risky","I can change written English into spoken English","I can make cue cards with key words","I can recover when I forget"];
+function renderSelf(){$("selfc").innerHTML=SELF.map((s,i)=>`<div class="it">${s}<div class="stars">${[1,2,3,4,5].map(n=>`<button class="${(S.self[i]||0)>=n?"on":""}" onclick="S.self[${i}]=${n};renderSelf();awardOnce('self${i}',2)">⭐</button>`).join("")}</div></div>`).join("")}
+function renderLearned(){const list=S.wants.length?S.wants:[0,3];$("learned").innerHTML=list.map(i=>`<button class="chip ${S.learned.includes(i)?"on":""}" onclick="tapLearned(${i})">✅ ${WANTS[i]}</button>`).join("")}
+function tapLearned(i){const k=S.learned.indexOf(i);k>-1?S.learned.splice(k,1):S.learned.push(i);renderLearned();awardOnce("learned",5,"Reflection done")}
+const GLOSS=[["🧠","memorise","يحفظ عن ظهر قلب","Don't memorise every word."],["💡","remember","يتذكّر","Remember your ideas."],["🗂️","cue card","بطاقة تذكير","Glance at your cue card."],["🔑","key word","كلمة مفتاحية","Write 5 key words."],["📄","script","نص مكتوب","Use a script to practise only."],["💬","natural","طبيعي","Speak in a natural way."],["🗣️","conversational","بأسلوب المحادثة","TED talks are conversational."],["🎓","formal","رسمي","Written English is more formal."],["👀","glance","نظرة سريعة","Glance, then look up."],["🛟","recover","يتعافى / يستعيد","Recover from a mistake calmly."],["✏️","self-correct","يصحّح نفسه","It's OK to self-correct."],["🌉","bridge phrase","عبارة انتقالية","Use a bridge phrase when you forget."],["😶","freeze","يتجمّد","Don't freeze: breathe."],["🎤","live","مباشر","Your talk is live."]];
+function renderGloss(){$("gloss").innerHTML=GLOSS.map(g=>`<div class="gc" onclick="this.classList.toggle('on');awardOnce('gl_${g[1]}',1)"><div class="in"><div class="f"><div class="big">${g[0]}</div>${g[1]}</div><div class="b"><div class="ar">${g[2]}</div>${g[3]}</div></div></div>`).join("")}
+
+function printCues(){if(!S.cards)initCards();$("printCues").innerHTML=`<div class="ph"><div><h1>✂️ My cue cards</h1><div style="opacity:.8">${esc(S.name)} · ${esc(S.topic.title)||"TED Talk"} · cut along the dashed lines</div></div><div style="font-size:24px">🗂️</div></div>
+  <div class="cutgrid">${S.cards.map((c,i)=>`<div class="cut"><span class="num">${"①②③④⑤"[i]}</span><div class="lab">${CARDS[i][0]} ${CARDS[i][1]}</div><div class="kw">${esc(c.k)||"&nbsp;"}</div>${c.f?`<div class="first">“${esc(c.f)}”</div>`:""}<span class="sc">✂ ${esc(S.name)}</span></div>`).join("")}<div class="cut"><div class="lab">🛟 IF I FORGET</div><div style="font-size:15px;line-height:1.7;margin-top:6px">🌬️ Pause · breathe<br>🗂️ Glance at my card<br>🔁 Repeat my last idea<br>🌉 “What I mean is…”<br>⏭️ Skip to the next card</div><span class="sc">✂ ${esc(S.name)}</span></div></div>`;doPrint("printCues");awardOnce("printCues",10,"✂️ Cue cards printed!")}
+function printCard(){if(!S.cards)initCards();$("printCard").innerHTML=`<div class="ph"><div><h1>💬 Sound Like Yourself: summary</h1><div style="opacity:.8">TED Talk Series · App 6 · LSC 1503 · ${esc(S.name)} · ${new Date().toLocaleDateString("en-GB")}</div></div><div style="font-size:24px">💬</div></div>
+  <div class="pb"><b>Title</b>${esc(S.topic.title)||"&nbsp;"}</div>
+  <div class="pb"><b>My cue cards</b>${S.cards.map((c,i)=>`${"①②③④⑤"[i]} <strong>${CARDS[i][1]}</strong>: ${esc(c.k)||"–"}${c.f?` <i>(“${esc(c.f)}”)</i>`:""}`).join("<br>")}</div>
+  <div class="pb"><b>Rehearsal</b>${S.rehDone?"Done in "+Math.floor(S.rehSecs/60)+":"+String(S.rehSecs%60).padStart(2,"0"):"not yet"}</div>
+  <div class="pb"><b>Partner natural-o-meter</b>${COACH.map((c,i)=>`${c}: <strong>${S.coach[i]!==undefined?["Not yet","Getting there","Yes!"][S.coach[i]]:"–"}</strong>`).join("<br>")}<br>Top tip: ${esc(S.coachTip)||"–"}</div>
+  <div class="pb"><b>Quiz · Points</b>${S.quizScore!==null?S.quizScore+"/"+QUIZ.length:"not yet"} · 💬 ${S.points} pts</div>
+  <p style="text-align:center;font-size:11px;margin-top:10px;color:#55697A">Designed by: Nazila Motahari · HCT</p>`;doPrint("printCard");awardOnce("print",5,"Summary ready")}
+function printCert(){$("cert").innerHTML=`<div class="certin"><div style="font-size:60px">💬</div><div style="letter-spacing:3px;font-weight:800;color:#55697A">CERTIFICATE OF ACHIEVEMENT</div><h1>Sound Like Yourself</h1><p style="margin-top:10px">This certifies that</p><div class="nm">${esc(S.name)||"Student"}</div><p>can speak from key words, sound natural,<br>and recover with confidence.</p><p style="margin-top:14px;font-weight:800">Quiz score: ${S.quizScore}/${QUIZ.length} · ${new Date().toLocaleDateString("en-GB")}</p><div style="font-size:30px;margin-top:14px">${BADGES.map((b,i)=>S.done[i]?b[0]:"").join(" ")}</div><p style="margin-top:20px;font-size:13px;color:#55697A">TED Talk Series · App 6 · LSC 1503 Professional Spoken Communication · HCT<br>Designed by: Nazila Motahari</p></div>`;doPrint("cert")}
+function doPrint(id){const el=$(id);el.classList.add("printing");setTimeout(()=>{window.print();el.classList.remove("printing")},150)}
+function saveJSON(){const data=Object.assign({app:"TED-App6-SoundLikeYourself",version:1,saved:new Date().toISOString()},S);const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data)],{type:"application/json"}));a.download=`TED6_SoundLikeYourself_${(S.name||"student").replace(/\W+/g,"_")}.json`;a.click();toast("💾 Saved! Keep this file for App 8")}
+function loadJSON(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);
+  if(d.app==="TED-App6-SoundLikeYourself"){Object.keys(S).forEach(k=>{if(d[k]!==undefined)S[k]=d[k]});$("sname").value=S.name;renderAll();if(S.name.trim())shrinkHero();toast("📂 Welcome back, "+(S.name||"")+"!");return}
+  if(!S.cards)initCards();const C=S.cards,kw=a=>{const out=[];let n=0;for(const part of a.filter(Boolean)){const w=part.replace(/[.,!?]+$/,"").split(/\s+/).filter(Boolean);if(n+w.length>8){if(n===0)out.push(w.slice(0,8).join(" "));break}out.push(w.join(" "));n+=w.length}return out.join(" · ")};
+  if(d.app==="TED-App4-StoryExample"){S.topic=d.topic||S.topic;S.hook=d.hook||"";const pts=(d.carry&&d.carry.app3&&d.carry.app3.pts)||[];
+    if(S.hook&&!C[0].f)C[0].f=S.hook;if(pts[0]&&!C[1].k)C[1].k=pts[0].p||"";
+    const st=d.story||[];if(!C[2].k)C[2].k=kw([st[0],st[1],st[2]]);const ex=d.ex||[];if(!C[3].k)C[3].k=kw([ex[1],ex[2]]);
+    const end=d.carry&&d.carry.app3&&d.carry.app3.ending;if(end&&end.t&&!C[4].f)C[4].f=end.t}
+  else if(d.app==="TED-App3-Backbone"){S.topic=d.topic||S.topic;S.hook=d.hook||"";if(S.hook&&!C[0].f)C[0].f=S.hook;(d.pts||[]).forEach((p,i)=>{if(C[i+1]&&!C[i+1].k)C[i+1].k=p.p||""});if(d.ending&&d.ending.t&&!C[4].f)C[4].f=d.ending.t}
+  else if(d.app==="TED-App2-HookThem"){S.topic=d.topic||S.topic;const h=d.hooks&&d.hooks[d.best];if(h&&!C[0].f)C[0].f=h.t}
+  else if(/^TED-App\d/.test(d.app||"")){S.topic=d.topic||S.topic}
+  else throw 0;
+  S.name=d.name||S.name;S.prev=d.app;$("sname").value=S.name;renderAll();if(S.name.trim()){awardOnce("start",5);awardOnce("import",10,"📂 Your work is loaded!");shrinkHero()}}
+  catch(e){toast("❌ This is not a TED Talk Studio JSON file")}};r.readAsText(f);ev.target.value=""}
+function confetti(){const c=$("confetti"),x=c.getContext("2d");c.width=innerWidth;c.height=innerHeight;const cols=["#0E7C86","#F4D58D","#FF6F59","#10263B","#FFFFFF"],P=Array.from({length:140},()=>({x:Math.random()*c.width,y:-20-Math.random()*c.height*.5,r:4+Math.random()*6,c:cols[Math.random()*5|0],vy:2+Math.random()*3,vx:-1.5+Math.random()*3,a:Math.random()*6}));
+  let t=0;(function f(){x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.a+=.1;x.save();x.translate(p.x,p.y);x.rotate(p.a);x.fillStyle=p.c;x.fillRect(-p.r/2,-p.r/2,p.r,p.r*1.6);x.restore()});if(++t<170)requestAnimationFrame(f);else x.clearRect(0,0,c.width,c.height)})()}
+function renderAll(){$("pts").textContent="💬 "+S.points+" pts";if(!S.cards)initCards();renderTabs();renderAB();if(S.ab!==null)pickAB(S.ab);renderChain(false);renderWants();renderSpk();renderPairs();renderShrink();renderRecs();drawOops();renderCards();renderCoach();renderSelf();renderLearned();renderGloss();if(S.quiz&&S.quizScore!==null){qi=S.quiz.length;drawQuiz()}}
+renderAll();
+</script>
+</body>
+</html>
